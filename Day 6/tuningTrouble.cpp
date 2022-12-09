@@ -1,7 +1,7 @@
 #include <fstream>
 #include <iostream>
-#include <queue>
 #include <map>
+#include <queue>
 #include <sstream>
 #include <string>
 
@@ -10,8 +10,8 @@ using std::cout;
 using std::endl;
 using std::ifstream;
 using std::istringstream;
-using std::queue;
 using std::map;
+using std::queue;
 using std::string;
 
 int main(int argc, char** argv) {
