@@ -1,18 +1,17 @@
 #include <cstdlib>
 #include <fstream>
 #include <iostream>
-#include <set>
 #include <sstream>
 #include <string>
+#include <unordered_set>
 #include <vector>
 
 using std::cout;
 using std::endl;
 using std::ifstream;
 using std::istringstream;
-using std::set;
 using std::string;
-using std::to_string;
+using std::unordered_set;
 using std::vector;
 
 typedef struct {
@@ -20,7 +19,7 @@ typedef struct {
 	int y = 0;
 } Pos;
 
-void updateTail(Pos* head, Pos* tail) {
+inline void updateTail(Pos* head, Pos* tail) {
 	if (abs(head->x - tail->x) <= 1 && abs(head->y - tail->y) <= 1) return;
 	if (abs(head->x - tail->x) > 1 && abs(head->y - tail->y) <= 1) {
 		tail->y = head->y;
@@ -43,8 +42,10 @@ int main(int argc, char** argv) {
 	string line;
 	vector<Pos*> knots(10);
 	for (int i = 0; i < 10; ++i) knots[i] = new Pos();
-	set<string> secondKnotPositions;
-	set<string> finalKnotPositions;
+	unordered_set<long> secondKnotPositions;
+	unordered_set<long> finalKnotPositions;
+	secondKnotPositions.reserve(9000000);
+	finalKnotPositions.reserve(9000000);
 
 	while (getline(file, line)) {
 		istringstream is(line);
@@ -58,8 +59,8 @@ int main(int argc, char** argv) {
 				else if (d == 'R') ++knots[0]->x;
 				else if (d == 'L') --knots[0]->x;
 				for (int i = 1; i < knots.size(); ++i) updateTail(knots[i-1], knots[i]);
-				secondKnotPositions.insert(to_string(knots[1]->x) + "-" + to_string(knots[1]->y));
-				finalKnotPositions.insert(to_string(knots[9]->x) + "-" + to_string(knots[9]->y));
+				secondKnotPositions.insert((knots[1]->x << 16) + knots[1]->y);
+				finalKnotPositions.insert((knots[9]->x << 16) + knots[9]->y);
 			}
 		}
 	}
